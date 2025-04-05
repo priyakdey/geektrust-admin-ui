@@ -96,6 +96,25 @@ export function App() {
     }
   }
 
+  function handleDeleteUser(userId: string) {
+    const index = users.findIndex((user) => user.id === userId);
+    if (index == -1) return;
+
+    const temp = [ ...users.slice(0, index), ...users.slice(index + 1, users.length) ];
+    console.log(temp);
+
+    const newTotalPages = Math.ceil(temp.length / PAGE_SIZE);
+    const newActivePage = activePage <= newTotalPages ? activePage : activePage - 1;
+
+    const start = (newActivePage - 1) * PAGE_SIZE;
+    const end = Math.min(start + PAGE_SIZE, temp.length);
+
+    setActivePage(newActivePage);
+    setTotalPages(newTotalPages);
+    setUsers(temp);
+    setPaginatedUsers(temp.slice(start, end));
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -106,7 +125,8 @@ export function App() {
           <div className="SearchBar">
             <SearchBar onSearch={onSearch} onClearSearch={onClearSearch} />
           </div>
-          <UserTable users={paginatedUsers} handleEditUser={handleEditUser} />
+          <UserTable users={paginatedUsers} handleEditUser={handleEditUser}
+                     handleDeleteUser={handleDeleteUser} />
           <PaginationContainer activePage={activePage} totalPages={totalPages}
                                setActivePage={setPageOnClick} />
         </div>

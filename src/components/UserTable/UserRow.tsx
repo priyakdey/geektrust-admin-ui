@@ -2,23 +2,25 @@ import { ChangeEvent, useState } from "react";
 import { User } from "../../model/user.d.ts";
 import Actions from "../Actions/Actions.tsx";
 
+function title(string: string): string {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 interface UserRowProps {
   key: string;    // Its react key, wtf it asks me to explicitly declare then?
   user: User;
   isChecked: boolean;
   handleSelectUser: (userId: string) => void;
   handleEditUser: (user: User) => void;
-}
-
-function title(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+  handleDeleteUser: (userId: string) => void;
 }
 
 export function UserRow({
                           user,
                           isChecked,
                           handleSelectUser,
-                          handleEditUser
+                          handleEditUser,
+                          handleDeleteUser
                         }: UserRowProps) {
   const [ isEditMode, setIsEditMode ] = useState<boolean>(false);
   const [ editedUser, setEditedUser ] = useState<User>(user);
@@ -79,7 +81,7 @@ export function UserRow({
       </td>
       <td>
         <Actions userId={user.id} onEdit={handleEditModeChange}
-                 onDelete={console.log} />
+                 onDelete={handleDeleteUser} />
       </td>
     </tr>
   );

@@ -6,9 +6,14 @@ import { UserRow } from "./UserRow.tsx";
 interface UserTableProps {
   users: User[];
   handleEditUser: (user: User) => void;
+  handleDeleteUser: (userId: string) => void;
 }
 
-export default function UserTable({ users, handleEditUser }: UserTableProps) {
+export default function UserTable({
+                                    users,
+                                    handleEditUser,
+                                    handleDeleteUser
+                                  }: UserTableProps) {
   const [ selectedUsers, setSelectedUsers ] = useState<string[]>([]);
 
   const selectAllRef = useRef<HTMLInputElement>(null!);
@@ -60,6 +65,7 @@ export default function UserTable({ users, handleEditUser }: UserTableProps) {
                 isChecked={selectedUsers.includes(user.id)}
                 handleSelectUser={handleSelectUser}
                 handleEditUser={handleEditUser}
+                handleDeleteUser={handleDeleteUser}
               />)
           }
         </tbody>

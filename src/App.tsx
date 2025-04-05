@@ -4,7 +4,7 @@ import {
 } from "./components/PaginationContainer/PaginationContainer.tsx";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UserTable from "./components/UserTable/UserTable.tsx";
-import { User } from "./model/user.d.ts";
+import { User } from "./model/user.ts";
 import "./App.css";
 
 const PAGE_SIZE: number = 10;
@@ -57,7 +57,7 @@ export function App() {
       return;
     }
 
-    const temp = [];
+    const temp: User[] = [];
     users.forEach((user: User) => {
       if (user.name.toLowerCase().includes(searchInput.toLowerCase()) ||
         user.email.toLowerCase().includes(searchInput.toLowerCase()) ||

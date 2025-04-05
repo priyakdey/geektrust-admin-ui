@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { User } from "../../model/user.d.ts";
+import { User } from "../../model/user.ts";
 import "./UserTable.css";
 import { UserRow } from "./UserRow.tsx";
 

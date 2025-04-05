@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import { User } from "../../model/user.d.ts";
+import { User } from "../../model/user.ts";
 import Actions from "../Actions/Actions.tsx";
 
 function title(string: string): string {

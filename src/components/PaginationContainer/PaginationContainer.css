@@ -22,6 +22,7 @@
 
 .delete-selected-btn:active {
   translate: 1px 1px;
+  transition: all 0.2s ease-in-out;
 }
 
 .pages {

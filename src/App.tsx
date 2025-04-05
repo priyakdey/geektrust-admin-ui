@@ -33,7 +33,6 @@ export function App() {
     fetchUsers()
       .then(data => {
         // TODO: Validate the input
-        data.sort((user1: User, user2: User) => user1.id.localeCompare(user2.id));
         setUsers(data);
         setPaginatedUsers(data.slice(0, PAGE_SIZE));
         const totalPages: number = Math.ceil(data.length / PAGE_SIZE);
@@ -99,27 +98,28 @@ export function App() {
     }
   }
 
-  function handleDeleteUser(userId: string) {
-    const index = users.findIndex((user) => user.id === userId);
-    if (index == -1) return;
-
-    const temp = [ ...users.slice(0, index), ...users.slice(index + 1, users.length) ];
-    console.log(temp);
-
-    const newTotalPages = Math.ceil(temp.length / PAGE_SIZE);
+  function deleteUsers(arr: User[]) {
+    const newTotalPages = Math.ceil(arr.length / PAGE_SIZE);
     const newActivePage = activePage <= newTotalPages ? activePage : activePage - 1;
 
     const start = (newActivePage - 1) * PAGE_SIZE;
-    const end = Math.min(start + PAGE_SIZE, temp.length);
+    const end = Math.min(start + PAGE_SIZE, arr.length);
 
     setActivePage(newActivePage);
     setTotalPages(newTotalPages);
-    setUsers(temp);
-    setPaginatedUsers(temp.slice(start, end));
+    setUsers(arr);
+    setPaginatedUsers(arr.slice(start, end));
+    setSelectedUsersIds([]);
+  }
+
+  function handleDeleteUser(userId: string) {
+    const index = users.findIndex((user) => user.id === userId);
+    if (index == -1) return;
+    deleteUsers([ ...users.slice(0, index), ...users.slice(index + 1, users.length) ]);
   }
 
   function handleDeleteSelectedUsers() {
-
+    deleteUsers(users.filter((user) => !selectedUsersIds.includes(user.id)));
   }
 
   function handleAddSelectUsers(reset: boolean = false, ...userIds: string[]) {

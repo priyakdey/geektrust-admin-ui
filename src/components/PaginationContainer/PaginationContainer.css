@@ -1,0 +1,45 @@
+.App-Footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 50px;
+}
+
+.delete-selected-btn {
+  background-color: #FE5A73;
+  color: #FFFFFF;
+  height: 40px;
+  width: 150px;
+  border: 1px solid #D6D6D6;
+  border-radius: 25px;
+}
+
+.delete-selected-btn:hover {
+  background-color: #FF3B30;
+  cursor: pointer;
+}
+
+.pages {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 30px;
+  margin: 0 auto;
+}
+
+.jump-btn {
+  background-color: #F5F5F5;
+  border: 1px solid #DFDFDF;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+}
+
+.page-number-btn {
+  border: 1px solid #007BFF;
+  background-color: #FFFFFF;
+  border-radius: 50%;
+  height: 35px;
+  width: 35px;
+}

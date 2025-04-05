@@ -1,0 +1,23 @@
+.UserTable-container {
+  width: 80%;
+}
+
+.UserTable {
+  width: 100%;
+  border-bottom: 1px solid #D6D6D6;
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.UserTable thead {
+  height: 50px;
+  background-color: #D6D6D6;
+}
+
+.UserTable td,
+.UserTable th {
+  padding: 16px 20px;
+  text-align: center;
+  color: #404040;
+  border-bottom: 1px solid #E0E0E0;
+}

@@ -1,0 +1,28 @@
+:root {
+  --header-height: 10vh;
+}
+
+/* .App { */
+/*   display: flex; */
+/*   flex-direction: column; */
+/*   align-items: center; */
+/* } */
+
+.App-header {
+  min-height: var(--header-height);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+}
+
+.App-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: calc(100vh - var(--header-height));
+  flex: 0 0 auto;
+  justify-content: space-evenly;
+}
+

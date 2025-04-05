@@ -4,6 +4,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 20px;
 }
 
 .SearchBar-input {
@@ -17,4 +18,22 @@
 .SearchBar-input:focus {
   outline: none;
   border-color: #007BFF;
+}
+
+.clear-search-bar-btn {
+  height: 35px;
+  width: 20%;
+  background-color: #FE5A73;
+  color: #FFFFFF;
+  border: 1px solid #D6D6D6;
+  border-radius: 25px;
+}
+
+.clear-search-bar-btn:hover {
+  background-color: #FF3B30;
+  cursor: pointer;
+}
+
+.clear-search-bar-btn:active {
+  translate: 1px 1px;
 }

@@ -16,13 +16,6 @@ export function App() {
   const [ totalPages, setTotalPages ] = useState<number>(0);
   const [ activePage, setActivePage ] = useState<number>(0);
 
-  function setPageOnClick(page: number): void {
-    setActivePage(page);
-    const start = (page - 1) * PAGE_SIZE;
-    const end = Math.min(start + PAGE_SIZE, users.length);
-    setPaginatedUsers(users.slice(start, end));
-  }
-
   useEffect(() => {
     async function fetchUsers(): Promise<User[]> {
       // We fetch all users, since the API does not support pagination
@@ -49,6 +42,50 @@ export function App() {
 
   }, []);
 
+  function setPageOnClick(page: number): void {
+    setActivePage(page);
+    const start = (page - 1) * PAGE_SIZE;
+    const end = Math.min(start + PAGE_SIZE, users.length);
+    setPaginatedUsers(users.slice(start, end));
+  }
+
+  function onSearch(searchInput: string): void {
+    if (searchInput === "") {
+      onClearSearch();
+      return;
+    }
+
+    const temp = [];
+    users.forEach((user: User) => {
+      if (user.name.toLowerCase().includes(searchInput.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchInput.toLowerCase()) ||
+        user.role.toLowerCase().includes(searchInput.toLowerCase())) {
+        temp.push(user);
+      }
+    });
+
+    if (temp.length == 0) {
+      setPaginatedUsers(temp);
+      setTotalPages(0);
+      setActivePage(0);
+      return;
+    }
+
+    setActivePage(1);
+    setTotalPages(Math.ceil(temp.length / PAGE_SIZE));
+    const start = 0;
+    const end = Math.min(start + PAGE_SIZE, temp.length);
+    setPaginatedUsers(temp.slice(start, end));
+  }
+
+  function onClearSearch() {
+    setActivePage(1);
+    setTotalPages(Math.ceil(users.length / PAGE_SIZE));
+    const start = 0;
+    const end = Math.min(start + PAGE_SIZE, users.length);
+    setPaginatedUsers(users.slice(start, end));
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -57,7 +94,7 @@ export function App() {
       <main>
         <div className="App-main">
           <div className="SearchBar">
-            <SearchBar />
+            <SearchBar onSearch={onSearch} onClearSearch={onClearSearch} />
           </div>
           <UserTable users={paginatedUsers} />
           <PaginationContainer activePage={activePage} totalPages={totalPages}

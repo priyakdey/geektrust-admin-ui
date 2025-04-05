@@ -20,6 +20,10 @@
   cursor: pointer;
 }
 
+.delete-selected-btn:active {
+  translate: 1px 1px;
+}
+
 .pages {
   display: flex;
   flex-direction: row;

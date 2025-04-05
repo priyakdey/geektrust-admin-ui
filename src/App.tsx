@@ -4,7 +4,7 @@ import {
 } from "./components/PaginationContainer/PaginationContainer.tsx";
 import SearchBar from "./components/SearchBar/SearchBar";
 import UserTable from "./components/UserTable/UserTable.tsx";
-import { User } from "./model/User.ts";
+import { User } from "./model/user.d.ts";
 import "./App.css";
 
 const PAGE_SIZE: number = 10;
@@ -86,6 +86,16 @@ export function App() {
     setPaginatedUsers(users.slice(start, end));
   }
 
+  function handleEditUser(user: User) {
+    const index = users.findIndex((u) => u.id === user.id);
+    if (index !== -1) {
+      const updatedUsers = [ ...users ];
+      updatedUsers[index] = user;
+      setUsers(updatedUsers);
+      setPaginatedUsers(updatedUsers.slice((activePage - 1) * PAGE_SIZE, activePage * PAGE_SIZE));
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -96,7 +106,7 @@ export function App() {
           <div className="SearchBar">
             <SearchBar onSearch={onSearch} onClearSearch={onClearSearch} />
           </div>
-          <UserTable users={paginatedUsers} />
+          <UserTable users={paginatedUsers} handleEditUser={handleEditUser} />
           <PaginationContainer activePage={activePage} totalPages={totalPages}
                                setActivePage={setPageOnClick} />
         </div>

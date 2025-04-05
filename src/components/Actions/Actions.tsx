@@ -4,15 +4,18 @@ import "./Actions.css";
 
 interface ActionsProps {
   userId: string;
-  onEdit: (string) => void;
-  onDelete: (string) => void;
+  onEdit: (userId: string) => void;
+  onDelete: (userId: string) => void;
 }
 
 export default function Actions({ userId, onEdit, onDelete }: ActionsProps) {
   return (
     <div className="Actions-container">
-      <FaRegEdit onClick={() => onEdit(userId)} />
-      <MdDeleteOutline fill="#FE4C43" onClick={() => onDelete(userId)} />
+      <FaRegEdit role="button" className="action-icon edit"
+                 onClick={() => onEdit(userId)} />
+      <MdDeleteOutline role="button" className="action-icon delete"
+                       fill="#FE4C43"
+                       onClick={() => onDelete(userId)} />
     </div>
   );
 }

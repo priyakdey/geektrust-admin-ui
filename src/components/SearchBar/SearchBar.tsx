@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./SearchBar.css";
 
 interface SearchBarProps {
-  onSearch: (string) => void;
+  onSearch: (searchInput: string) => void;
   onClearSearch: () => void;
 }
 

@@ -3,7 +3,7 @@ import "./PaginationContainer.css";
 interface FooterProps {
   activePage: number;
   totalPages: number;
-  setActivePage: (number) => void;
+  setActivePage: (pageNo: number) => void;
 }
 
 const activePageStyle = {
@@ -23,9 +23,10 @@ export function PaginationContainer({
                                     }: FooterProps) {
   return (
     <div className="App-Footer">
-      <button className="delete-selected-btn">Delete Selected</button>
+      <button className="delete-selected-btn delete-selected">Delete Selected
+      </button>
       <div className="pages">
-        <button className="jump-btn" disabled={activePage === 1}
+        <button className="jump-btn first-page" disabled={activePage === 1}
                 onClick={() => setActivePage(1)}>
           <svg width="24" height="24" viewBox="-5 -5 30 30" fill="none"
                xmlns="http://www.w3.org/2000/svg">
@@ -37,7 +38,7 @@ export function PaginationContainer({
                   strokeLinejoin="round" />
           </svg>
         </button>
-        <button className="jump-btn"
+        <button className="jump-btn previous-page"
                 disabled={activePage === 1}
                 onClick={() => setActivePage(activePage - 1)}>
           <svg width="24" height="24" viewBox="0 -5 30 30" fill="none"
@@ -60,7 +61,7 @@ export function PaginationContainer({
             </button>
           ))
         }
-        <button className="jump-btn"
+        <button className="jump-btn next-page"
                 disabled={activePage === totalPages}
                 onClick={() => setActivePage(activePage + 1)}>
           <svg width="24" height="24" viewBox="0 -5 30 30" fill="none"
@@ -70,7 +71,7 @@ export function PaginationContainer({
                   strokeLinejoin="round" />
           </svg>
         </button>
-        <button className="jump-btn"
+        <button className="jump-btn last-page"
                 disabled={activePage === totalPages}
                 onClick={() => setActivePage(totalPages)}>
           <svg width="24" height="24" viewBox="-5 -5 30 30" fill="none"

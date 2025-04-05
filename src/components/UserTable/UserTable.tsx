@@ -1,29 +1,17 @@
 import { useRef, useState } from "react";
-import { User } from "../../model/User.ts";
-import Actions from "../Actions/Actions.tsx";
+import { User } from "../../model/user.d.ts";
 import "./UserTable.css";
+import { UserRow } from "./UserRow.tsx";
 
 interface UserTableProps {
   users: User[];
+  handleEditUser: (user: User) => void;
 }
 
-function title(string: string): string {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-export default function UserTable({ users }: UserTableProps) {
+export default function UserTable({ users, handleEditUser }: UserTableProps) {
   const [ selectedUsers, setSelectedUsers ] = useState<string[]>([]);
 
-  const selectAllRef = useRef<HTMLInputElement>(null);
-
-
-  function handleOnEdit(userId) {
-
-  }
-
-  function handleOnDelete(userId) {
-    console.log("delete", userId);
-  }
+  const selectAllRef = useRef<HTMLInputElement>(null!);
 
   function handleSelectUser(userId: string) {
     if (selectedUsers.includes(userId)) {
@@ -47,6 +35,7 @@ export default function UserTable({ users }: UserTableProps) {
     setSelectedUsers(() => temp);
   }
 
+
   return (
     <div className="UserTable-container">
       <table className="UserTable">
@@ -64,24 +53,14 @@ export default function UserTable({ users }: UserTableProps) {
         </thead>
         <tbody>
           {
-            users.map((user) => {
-              return (
-                <tr key={user.id}>
-                  <td>
-                    <input type="checkbox"
-                           checked={selectedUsers.includes(user.id)}
-                           onChange={() => handleSelectUser(user.id)} />
-                  </td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{title(user.role)}</td>
-                  <td>
-                    <Actions userId={user.id} onEdit={handleOnEdit}
-                             onDelete={handleOnDelete} />
-                  </td>
-                </tr>
-              );
-            })
+            users.map((user) =>
+              <UserRow
+                key={user.id}
+                user={user}
+                isChecked={selectedUsers.includes(user.id)}
+                handleSelectUser={handleSelectUser}
+                handleEditUser={handleEditUser}
+              />)
           }
         </tbody>
       </table>

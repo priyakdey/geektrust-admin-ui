@@ -1,11 +1,5 @@
 import "./PaginationContainer.css";
 
-interface FooterProps {
-  activePage: number;
-  totalPages: number;
-  setActivePage: (pageNo: number) => void;
-}
-
 const activePageStyle = {
   "color": "#007BFF",
   "backgroundColor": "#FFFFFF"
@@ -16,14 +10,24 @@ const inActivePageStyle = {
   "backgroundColor": "#007BFF"
 };
 
+interface FooterProps {
+  activePage: number;
+  totalPages: number;
+  setActivePage: (pageNo: number) => void;
+  handleDeleteSelectedUsers: () => void;
+}
+
 export function PaginationContainer({
                                       activePage,
                                       totalPages,
-                                      setActivePage
+                                      setActivePage,
+                                      handleDeleteSelectedUsers
                                     }: FooterProps) {
   return (
     <div className="App-Footer">
-      <button className="delete-selected-btn delete-selected">Delete Selected
+      <button className="delete-selected-btn delete-selected"
+              onClick={handleDeleteSelectedUsers}>
+        Delete Selected
       </button>
       <div className="pages">
         <button className="jump-btn first-page" disabled={activePage === 1}

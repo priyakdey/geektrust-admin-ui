@@ -1,45 +1,43 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { User } from "../../model/user.d.ts";
 import "./UserTable.css";
 import { UserRow } from "./UserRow.tsx";
 
 interface UserTableProps {
   users: User[];
+  selectedUsersIds: string[];
   handleEditUser: (user: User) => void;
   handleDeleteUser: (userId: string) => void;
+  handleAddSelectUsers: (reset?: boolean, ...userIds: string[]) => void;
 }
 
 export default function UserTable({
                                     users,
+                                    selectedUsersIds,
                                     handleEditUser,
-                                    handleDeleteUser
+                                    handleDeleteUser,
+                                    handleAddSelectUsers
                                   }: UserTableProps) {
-  const [ selectedUsers, setSelectedUsers ] = useState<string[]>([]);
+
 
   const selectAllRef = useRef<HTMLInputElement>(null!);
 
-  function handleSelectUser(userId: string) {
-    if (selectedUsers.includes(userId)) {
-      setSelectedUsers((prev) => prev.filter((id) => id !== userId));
-      return;
-    }
+  useEffect(() => {
+    selectAllRef.current!.checked = false;
+  }, [ users ]);
 
-    setSelectedUsers((prev) => [ ...prev, userId ]);
+  function handleSelectUser(userId: string) {
+    handleAddSelectUsers(false, userId);
   }
 
   function handleSelectAllUsers() {
     if (!selectAllRef.current?.checked) {
-      setSelectedUsers([]);
+      handleAddSelectUsers();
       return;
     }
 
-    const temp: string[] = [];
-    users.forEach((user) => {
-      temp.push(user.id);
-    });
-    setSelectedUsers(() => temp);
+    handleAddSelectUsers(true, ...users.map((user) => user.id));
   }
-
 
   return (
     <div className="UserTable-container">
@@ -62,7 +60,7 @@ export default function UserTable({
               <UserRow
                 key={user.id}
                 user={user}
-                isChecked={selectedUsers.includes(user.id)}
+                isChecked={selectedUsersIds.includes(user.id)}
                 handleSelectUser={handleSelectUser}
                 handleEditUser={handleEditUser}
                 handleDeleteUser={handleDeleteUser}

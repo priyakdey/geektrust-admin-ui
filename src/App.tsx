@@ -16,6 +16,8 @@ export function App() {
   const [ totalPages, setTotalPages ] = useState<number>(0);
   const [ activePage, setActivePage ] = useState<number>(0);
 
+  const [ selectedUsersIds, setSelectedUsersIds ] = useState<string[]>([]);
+
   useEffect(() => {
     async function fetchUsers(): Promise<User[]> {
       // We fetch all users, since the API does not support pagination
@@ -42,11 +44,12 @@ export function App() {
 
   }, []);
 
-  function setPageOnClick(page: number): void {
+  function handlePageChange(page: number): void {
     setActivePage(page);
     const start = (page - 1) * PAGE_SIZE;
     const end = Math.min(start + PAGE_SIZE, users.length);
     setPaginatedUsers(users.slice(start, end));
+    setSelectedUsersIds([]);
   }
 
   function onSearch(searchInput: string): void {
@@ -115,6 +118,30 @@ export function App() {
     setPaginatedUsers(temp.slice(start, end));
   }
 
+  function handleDeleteSelectedUsers() {
+
+  }
+
+  function handleAddSelectUsers(reset: boolean = false, ...userIds: string[]) {
+    if (userIds.length === 0) {
+      setSelectedUsersIds([]);
+      return;
+    }
+
+    if (reset) {
+      setSelectedUsersIds(userIds);
+      return;
+    }
+
+    for (const userId of userIds) {
+      if (selectedUsersIds.includes(userId)) {
+        setSelectedUsersIds((prev) => prev.filter((id) => id !== userId));
+      } else {
+        setSelectedUsersIds((prev) => [ ...prev, userId ]);
+      }
+    }
+  }
+
   return (
     <div className="App">
       <header className="App-header">
@@ -125,10 +152,14 @@ export function App() {
           <div className="SearchBar">
             <SearchBar onSearch={onSearch} onClearSearch={onClearSearch} />
           </div>
-          <UserTable users={paginatedUsers} handleEditUser={handleEditUser}
-                     handleDeleteUser={handleDeleteUser} />
+          <UserTable users={paginatedUsers}
+                     selectedUsersIds={selectedUsersIds}
+                     handleEditUser={handleEditUser}
+                     handleDeleteUser={handleDeleteUser}
+                     handleAddSelectUsers={handleAddSelectUsers} />
           <PaginationContainer activePage={activePage} totalPages={totalPages}
-                               setActivePage={setPageOnClick} />
+                               setActivePage={handlePageChange}
+                               handleDeleteSelectedUsers={handleDeleteSelectedUsers} />
         </div>
       </main>
     </div>
